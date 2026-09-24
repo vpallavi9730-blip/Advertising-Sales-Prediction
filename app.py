@@ -2,29 +2,16 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-
-# ==========================================
-# PAGE CONFIGURATION
-# ==========================================
-
 st.set_page_config(
     page_title="Advertising Sales Prediction",
     page_icon="📊",
     layout="centered"
 )
 
-
-# ==========================================
-# LOAD TRAINED MODEL
-# ==========================================
-
+# Load trained model
 model = joblib.load("model/sales_model.pkl")
 
-
-# ==========================================
-# TITLE
-# ==========================================
-
+# Title
 st.title("📊 Advertising Sales Prediction")
 
 st.write(
@@ -32,11 +19,7 @@ st.write(
     "to predict the expected Sales."
 )
 
-
-# ==========================================
-# USER INPUTS
-# ==========================================
-
+# Input fields
 tv = st.number_input(
     "TV Advertising Budget",
     min_value=0.0,
@@ -58,11 +41,14 @@ newspaper = st.number_input(
     step=0.1
 )
 
+# Input Summary
+st.subheader("📋 Input Summary")
 
-# ==========================================
-# PREDICTION
-# ==========================================
+st.write(f"**TV Advertising:** {tv}")
+st.write(f"**Radio Advertising:** {radio}")
+st.write(f"**Newspaper Advertising:** {newspaper}")
 
+# Prediction
 if st.button("Predict Sales"):
 
     input_data = pd.DataFrame({
@@ -72,18 +58,11 @@ if st.button("Predict Sales"):
     })
 
     prediction = model.predict(input_data)
-
     predicted_sales = prediction[0]
 
-    st.success(
-        f"Predicted Sales: {predicted_sales:.2f}"
-    )
+    st.success(f"Predicted Sales: {predicted_sales:.2f}")
 
-
-# ==========================================
-# INTERPRETATION
-# ==========================================
-
+# About the Prediction
 st.subheader("About the Prediction")
 
 st.write(
